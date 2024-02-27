@@ -33,6 +33,8 @@
 \usepackage{float}
 \usepackage{listings}
 \usepackage{pgfgantt}
+\usepackage{amsmath}
+\usepackage{longtable}
 
 
 % If the title and author information does not fit in the area allocated, uncomment the following
@@ -41,8 +43,7 @@
 %
 % and set <dim> to something 5cm or larger.
 
-\title{Decision support data warehouse for Dutch financial institutions for
-process improvement and reporting}
+\title{Systematic approach to finding the most suitable Data warehouse approach and tooling for a situation}
 
 % Author information can be set in various styles:
 % For several authors from the same institution:
@@ -74,87 +75,143 @@ process improvement and reporting}
 % \end{abstract}
 
 \section{Introduction}
-With the still-growing value of data in today's world, many organizations have invested in the development of a data warehouse. A data warehouse is used to store data differently to efficiently analyze business data \cite{gupta1997selection}. Data warehouses can be used for analyzing and improving business processes \cite{shahzad2009goal}, but also to get a better understanding of for example the financial situation of an organization \cite{lapura2018development}. While data warehouses are becoming popular in every sector, one sector in which data warehouses can be useful is the financial sector. Every organization wants to be financially healthy and a data warehouse can give insight into this.
+With the still-growing value of data in today's world, many organizations have invested in the development of a data warehouse. A data warehouse is used to store data differently to efficiently analyze business data \cite{gupta1997selection}. Data warehouses can be used for analyzing and improving business processes \cite{shahzad2009goal}, but also to get a better understanding of for example the financial situation of an organization \cite{lapura2018development}. A data warehouse utilizes historical data to show trends, averages, and bottlenecks in a process or production chain to show what areas can be improved. \\
 
-One company that has been involved in the financial sector for a long time now, is Topicus.Finance. The focus within Topicus.Finance lies on three main sectors pension and wealth \cite{pension},  mortgages \cite{mortgages}, and lending \cite{businesslending}. Within each of these sectors, Topicus.Finance has multiple software applications for individuals or companies. In this study, one of these software applications for the lending side will be used as the basis for a case study. The application is called Fyndoo \cite{fyndoo}, and is used by almost all major banks and many smaller banks and other financial institutions that offer lending services in the Netherlands. Fyndoo is a software application that streamlines the lending application process for both the financial institution and the applicant. \\
+A data warehouse captures data from one or multiple sources, transforms the data in such a way that aggregations on this data are easy and fast to execute, and finally loads this data into the data warehouse database. This process is called extract-transform-load (ETL). Over the years many tools and software solutions have been developed to aid people in this process. Some tools are purely programming libraries or extensions that help the user to achieve what they want \cite{Thomsen201821, Jensen202145, Biswas_programming2019267}, and others are more full-fledged software that can be used to build ETL pipelines with minimal coding. While major companies like Amazon, Microsoft, and Google have developed data warehouse solution, these are often very expensive and require a subscription to their entire cloud platform to use them. However, over the last couple of years, open-source data warehouse tools have developed further and further \cite{nejres2015analysis}. Meaning that these tools now have the exact same functionality and even allow the user to build upon the tool themselves is something is missing. For example, the source of the data is not yet part of the tool, the user can build a custom connector through for example an API and still extract all the data they want. \\
 
-In the Netherlands, every financial institution has to report to "De Nederlandsche Bank" (DNB), which in turn reports to the European Central Bank (ECB). While Fyndoo makes this reporting easier for clients of Topicus.Finance, the information that is currently available for clients is based on what Topicus .Finance believes is needed. Therefore, the clients of Topicus .Finance would like more insight into the reports they have to deliver to the DNB and ECB. Furthermore, while Fyndoo helps streamline the lending application process, clients of Topicus .Finance want more insight into the lending application process for themselves to see how this process can be improved outside of the software application. Topicus .Finance only develops generic functionalities, meaning that a feature should be useful to all clients before being implemented. In other words, they do not tailor customization for one specific client, only the configuration of the software. Therefore, the needs of all clients should be identified such that a new release of Fyndoo is a good solution for all clients. \\
+TODO: Intro approaches and practices for data warehousing \\
 
-There is plenty of research already conducted on the topic of data warehouse and process improvement. While some of the studies mentioned in the related works in section \ref{related} are quite useful for the study proposed in this report, for example, the studies comparing open-source tooling \cite{thomsen2009survey}, there is an overall lack of studies on what the most suitable approach and tooling for different domains is. While there is overlap in what is important in different domains, there are also many differences. Studies highlighting data warehousing in an educational setting \cite{lapura2018development, nejres2015analysis} might have applications in the financial domain, but there is no real evidence to support this. 
+% One company that has been involved in the financial sector for a long time now, is Topicus.Finance. The focus within Topicus.Finance lies on three main sectors pension and wealth \cite{pension},  mortgages \cite{mortgages}, and lending \cite{businesslending}. Within each of these sectors, Topicus.Finance has multiple software applications for individuals or companies. In this study, one of these software applications for the lending side will be used as the basis for a case study. The application is called Fyndoo \cite{fyndoo}, and is used by almost all major banks and many smaller banks and other financial institutions that offer lending services in the Netherlands. Fyndoo is a software application that streamlines the lending application process for both the financial institution and the applicant. \\
+
+% In the Netherlands, every financial institution has to report to "De Nederlandsche Bank" (DNB), which in turn reports to the European Central Bank (ECB). While Fyndoo makes this reporting easier for clients of Topicus.Finance, the information that is currently available for clients is based on what Topicus .Finance believes is needed. Therefore, the clients of Topicus .Finance would like more insight into the reports they have to deliver to the DNB and ECB. Furthermore, while Fyndoo helps streamline the lending application process, clients of Topicus .Finance want more insight into the lending application process for themselves to see how this process can be improved outside of the software application. Topicus .Finance only develops generic functionalities, meaning that a feature should be useful to all clients before being implemented. In other words, they do not tailor customization for one specific client, only the configuration of the software. Therefore, the needs of all clients should be identified such that a new release of Fyndoo is a good solution for all clients. \\
+
+% There is plenty of research already conducted on the topic of data warehouse and process improvement. While some of the studies mentioned in the related works in section \ref{related} are quite useful for the study proposed in this report, for example, the studies comparing open-source tooling \cite{thomsen2009survey}, there is an overall lack of studies on what the most suitable approach and tooling for different domains is. While there is overlap in what is important in different domains, there are also many differences. Studies highlighting data warehousing in an educational setting \cite{lapura2018development, nejres2015analysis} might have applications in the financial domain, but there is no real evidence to support this. 
 
 \subsection{Problem statement}
-While major banks like Rabobank and ING already have their own data warehouses in place for process improvement and reporting to the DNB, smaller clients of Topicus .Finance do not have the resources to develop this themselves. The existing features of Fyndoo are unfortunately not enough, and the exact needs of the clients of Topicus .Finance are still unknown. Current research shows a lot of use for data warehousing in this regard, however, no focus has been given to Dutch processes, which differ from processes in other countries and therefore might require a different approach for decision support meaning research concentrating on other countries might be not directly applicable. Furthermore, most data warehouses focus only on process improvement or reporting, not both. Moreover, Topicus .Finance prefers to use open-source software, however, most research focuses on Data Warehousing with commercial tooling. The studies conducted on open-source software provide overviews of available options but do not showcase the most suitable tooling and approach to use for process improvement or reporting.
-
-% \subsection{Research questions}
-% The above problem statement leads to the following research question: 
-% \textit{What are the possibilities of a decision support data warehouse for Dutch financial institutions for process improvement and reporting?}
-
-% By answering the following sub-questions, the main research question can be answered.
-% \begin{enumerate}
-%   \item What are the reporting needs of Dutch financial institutions?
-%   \item What are the processes that Dutch financial institutions want to monitor?
-%   \item What data do these processes rely on?
-%   \item What are the best practices for a decision support data warehouse?
-%   \begin{enumerate}
-%       \item What tools are most suitable for a decision support data warehouse?
-%   \end{enumerate}
-%   \item How useful is the proposed system? \label{rq:usefulness}
-% \end{enumerate}
+% While major banks like Rabobank and ING already have their own data warehouses in place for process improvement and reporting to the DNB, smaller clients of Topicus .Finance do not have the resources to develop this themselves. The existing features of Fyndoo are unfortunately not enough, and the exact needs of the clients of Topicus .Finance are still unknown. Current research shows a lot of use for data warehousing in this regard, however, no focus has been given to Dutch processes, which differ from processes in other countries and therefore might require a different approach for decision support meaning research concentrating on other countries might be not directly applicable. Furthermore, most data warehouses focus only on process improvement or reporting, not both. Moreover, Topicus .Finance prefers to use open-source software, however, most research focuses on Data Warehousing with commercial tooling. The studies conducted on open-source software provide overviews of available options but do not showcase the most suitable tooling and approach to use for process improvement or reporting.
+The research on open-source data warehouse tooling is currently fairly limited, while on the other hand, a simple Google search is the complete opposite and will result in hundreds of websites giving their ranking of the many available tools each with a different one at the top. What is missing is a way to navigate this landscape of software solutions to pick the tools that are most suitable for a specific situation. Aspects to keep in mind while choosing the tooling most suitable for a situation include but are not limited to the size of the project, the experience of the people involved with both data warehousing and programming and the use case for the data warehouse. 
 
 \subsection{Research questions}
 The above problem statement leads to the following research question: 
-\textit{What are the most suitable open-source Data Warehouse solutions and Data Warehouse approaches for Dutch financial institutions for process improvement and reporting?}
+\textit{How can the most suitable Data Warehouse tooling and practices for a situation be systematically determined?}\\
 
 By answering the following sub-questions, the main research question can be answered.
 \begin{enumerate}
-  \item What are the reporting needs of Dutch financial institutions?
-  \item What are the processes that Dutch financial institutions want to monitor?
-  \item What are the key performance indicators (KPIs) of these processes?
   \item How do different open-source Data Warehouse solutions compare to each other?
-  \item How do different Data Warehouse approaches compare to each other?
-  \item How useful is the proposed system? \label{rq:usefulness}
+  \item How do different Data Warehouse practices compare to each other?
+  \item What are the most suitable open-source Data Warehouse solutions and Data Warehouse approaches for Dutch financial institutions for process improvement and reporting? (Case study)  
+  \begin{enumerate}
+    \item What are the reporting needs of Dutch financial institutions?
+    \item What are the processes that Dutch financial institutions want to monitor?
+    \item What are the key performance indicators (KPIs) of these processes?
+    \item How useful is the proposed system? \label{rq:usefulness}
+  \end{enumerate}
 \end{enumerate}
 
 \section{Related work}
 \label{related}
-The following paragraphs will discuss related work on data warehousing for financial data; business process improvement in general; data warehousing for process improvement; data warehouse tooling; and data warehouse usefulness. The focus will be on what these research papers accomplished and the gap in the literature that the proposed research in this report can fill. \\
+The following paragraphs will discuss related work on data warehousing for financial data; business process improvement in general; data warehousing for process improvement; data warehouse tooling; and data warehouse usefulness. The purpose of this section is to show that a case such as described later in this paper is not yet done before and will help to validate the usefulness of the created framework. \\
 
-First of all, there are several studies on data warehousing specifically for financial data \cite{amertha2020data, lapura2018development}. These studies focus on the data that is produced by banks or the financial status of an organization rather than the processes that could be improved. Furthermore, while the paper of Amertha et al. \cite{amertha2020data} shows potential for reporting to management or another institution to which a bank needs to report, the research only shows the capabilities of data warehousing not which tooling and practices are used. Furthermore, the paper of Lapura et al. researches the potential for a data warehouse for the financial situation of a university \cite{lapura2018development}. While this does show the potential for decision support with a data warehouse, the research itself mostly showed the advantages of a data warehouse. It was again not focused on process improvement or the tooling used. \\
+First of all, there are several studies on data warehousing specifically for financial data \cite{amertha2020data, lapura2018development}. These studies focus on the data that is produced by banks or the financial status of an organization rather than the processes that could be improved. Furthermore, while the paper of Amertha et al. \cite{amertha2020data} shows potential for reporting to management or another institution to which a bank needs to report, the research only shows the capabilities of data warehousing not which tooling and practices are used or how these have been determined. Furthermore, the paper of Lapura et al. researches the potential for a data warehouse for the financial situation of a university \cite{lapura2018development}. While this does show the potential for decision support with a data warehouse, the research itself mostly showed the advantages of a data warehouse. It was again not focused on process improvement or the tooling used or how the tooling and approach was decided. \\
 
 Second of all, there are several studies done on process improvement, and also more specifically in a financial context. These studies involve literature reviews into business process improvement methodologies \cite{zellner2011structured}, which found that existing approaches to business processes were often a black box and therefore not reproducible as a systematically structured approach. However, this study was conducted in 2011, new research has been done in the use of a data warehouse for process improvement. Other studies have looked into process improvement in the financial context. For example, one study developed a theory model for process improvement which provides an understanding of the outcomes of business process improvement initiatives that were researched and shows potential to extend upon existing solutions \cite{buavaraporn2013business}. While these studies show that process improvement is important and that data warehousing is a good solution for this, they do not offer the specifics of a data warehousing solution in terms of tooling and approach. \\
 
-Third of all, as mentioned above, there has been a rise in studies conducted on the topic of data warehousing regarding process improvement. One study showed the potential of a decision support data warehouse in a case study on the Swedish healthcare sector \cite{shahzad2009goal}. While this study was a success, the healthcare industry is vastly different from the financial industry. The processes involved in financial institutions and the clients of Topicus .Finance might not be comparable. Furthermore, this research does not combine this process warehouse with reporting needs which financial institutions are obliged to share with the Dutch National Bank, and does not highlight the tooling or approach.\\
+Third, as mentioned above, there has been a rise in studies conducted on data warehousing regarding process improvement. One study showed the potential of a decision support data warehouse in a case study on the Swedish healthcare sector \cite{shahzad2009goal}. While this study was a success, the healthcare industry is vastly different from the financial industry, and therefore different tooling or a different approach might be better. \\
 
-Fourth of all, studies on different data warehouse tooling and approaches were found. One study focussed on the comparison of different Extract, Transform, and Load (ETL) tooling \cite{etl_comparison}. However, none of these tools were open-source and the result was only an overview of these different tooling, it did not showcase the use of these tools in a case study. The study of Nejres showcased that open-source tooling nowadays is just as capable as commercial software \cite{nejres2015analysis}. While the study successfully showed that open-source tooling is just as good as commercial, it did not highlight which tooling or approach was used and the case study was done in the educational domain not the financial. The paper of Pulla et al. describes an extensive comparative study on open-source data quality tools \cite{pulla2016open}. Yet again, the study does not involve other tooling or a comparison of approaches most suitable for different domains and applications. Next, the study of Dymore et al. shows a performance analysis of a real-time data warehouse solution \cite{dymora2023performance}. The study mentions the use of open-source tooling, for example, Apache Hadoop, Apache Hive, Apache Druid, and Apache Kafka. Furthermore, the study does explain different approaches that can be used for designing a data warehouse. However, the focus of this study is on the performance of the Apache software in a real-time setting, not on the suitability of the approach. Finally, Thomsen et al. conducted a survey study on different open-source business intelligence software \cite{thomsen2009survey}. They considered several ETL tools, database management systems (DBMSs), On‐Line Analytical Processing (OLAP) servers, and OLAP clients. The study was a revision of their previous study in 2005, however, the study was conducted in 2008 and therefore still rather outdated. Furthermore, the result of this study is again only an overview of different tools in different categories, there is no case study to see how suitable these tools are in a real-life setting or what approach is most suitable.
+Fourth of all, studies on different data warehouse tooling and approaches were found. One study focussed on the comparison of different Extract, Transform, and Load (ETL) tooling \cite{etl_comparison}. However, none of these tools were open-source and the result was only an overview of these different tooling, it did not showcase the use of these tools in a case study or if the tool has certain use cases where it excels at or lags. The study of Nejres showcased that open-source tooling nowadays is just as capable as commercial software \cite{nejres2015analysis}. While the study successfully showed that open-source tooling is just as good as commercial, it did not highlight which tooling or approach was used or why these tools and approaches were used. The paper of Pulla et al. describes an extensive comparative study on open-source data quality tools \cite{pulla2016open}. Yet again, the study does not involve other tooling or a comparison of approaches most suitable for different domains and applications. Next, the study of Dymore et al. shows a performance analysis of a real-time data warehouse solution \cite{dymora2023performance}. The study mentions using open-source tooling, for example, Apache Hadoop, Apache Hive, Apache Druid, and Apache Kafka. Furthermore, the study does explain different approaches that can be used for designing a data warehouse. However, the focus of this study is on the performance of the Apache software in a real-time setting, not on the suitability of the approach. Finally, Thomsen et al. conducted a survey study on different open-source business intelligence software \cite{thomsen2009survey}. They considered several ETL tools, database management systems (DBMSs), On‐Line Analytical Processing (OLAP) servers, and OLAP clients. The study was a revision of their previous study in 2005, however, the study was conducted in 2008 and therefore still rather outdated. Furthermore, the result of this study is again only an overview of different tools in different categories, there is no case study to see how suitable these tools are in a real-life setting or what approach is most suitable.
 
-Last, there are many research papers on the effectiveness of data warehousing \cite{al2023empirical, rahman2022empirical, ramamurthy2008data}. While data warehouse effectiveness is not the main topic of the proposed research, it is very relevant research in regards to answering research question \ref{rq:usefulness}. \\
+Last, there are many research papers on the effectiveness of data warehousing \cite{al2023empirical, rahman2022empirical, ramamurthy2008data}. While data warehouse effectiveness is not the main topic of the proposed research, it is very relevant research in regards to answering research question \ref{rq:usefulness}.\\
 
-\section{Method}
-\label{method}
-The list of tasks as shown below outlines the basic steps that are to be taken to answer the proposed research questions. Section \ref{approach} will give a more detailed description of each task and how this task will be completed.
+\section{Methodology of research topics}
+\label{methodology}
+To answer the research questions for the proposed research, the necessary information needs to be gathered first. Which is exactly the purpose of this report. This information consists of the available open-source tools and software and what different approaches or practices are common in data warehousing that need to be considered. Therefore, the following research questions have been formulated: \\
 
-\begin{enumerate}
-    \item Interview clients of Topicus .Finance for their reporting needs and processes
-    \item Find common ground in answers
-    \item Find best practices for data warehousing in literature
-    \item Gather dummy data
-    \item Design and implement solution
-\end{enumerate}
+\begin{itemize}
+    \item \textbf{RQ1}: What open-source tools are available?
+    \item \textbf{RQ2}: What are common data warehouse approaches/practices?
+\end{itemize}
 
-\section{Approach}
+For both research question a literature review was conducted the result for the first questions was extended with a Google search. Both literature studies had a population consisting of published studies from 2018 up to and including Febuary 2024. All papers are written in English and are published in the field of computer science. This section is divided in two parts, the first focusses on answering the first research question, and thus the tooling, where the second focusses on the second research questions, and thus the approach and practices.
+
+\subsection{Tools}
+\subsubsection{Search strategy}
+To answer the first research question, a combination of results from literature and Google were used. Since the goal of this research question is to find all available tools that are currently popular, using only literature was not an option as this would yield a very limited result and would not be a representative overview of the software that is actually available. For the literature, Scopus was used as the library of choice as it was indicated as the most comprehensive and user-friendly literature database \cite{harzing2016google, mongeon2016journal}. The following search query was used:
+
+\textbf{(open-source OR "open source") AND ("data warehouse" OR etl) AND (solution OR tool)}
+
+The search was done in the title, abstract and keywords of the study. The result was a set of 65 papers. These papers, however, were not all relevant. Therefore several inclusion criteria for the papers were set up. As mentioned before, the goal is to find tooling which should be considered in the proposed research. Therefore, the quality of the paper or the results that were obtained were not of importance for this study. Therefore, there are only two inclusion criteria.
+
+\begin{itemize}
+    \item \textbf{IC1}: The subject of the paper should be data warehousing or ETL.
+    \item \textbf{IC2}: The paper should mention the tools that were used for the research.
+\end{itemize}
+
+After applying the criteria, 19 papers were left. These papers were carefully read to find any tool that was mentioned. This initial result was extended with tools found through a Google search. For this search the following queries were used:
+
+\begin{itemize}
+    \item open source data warehouse tools
+    \item open source etl tools
+\end{itemize}
+
+The resulting pages included rankings of the so-called "best" ETL or data warehouse tool to forums discussing different possibilities for tools that can be used to develop and run ETL pipelines. The complete list of tools that were found can be seen in table \ref{table:tools}. However, not all of these tools should be taken into consideration for the proposed research. Therefore, new inclusion and exclusion criteria for the tools were formed.
+
+\begin{itemize}
+    \item \textbf{IC1}: The tool has to be completely open-source
+    \item \textbf{IC2}: The source code should be accessible
+    \item \textbf{IC3}: The latest release should be in or after 2020
+    \item \textbf{EC1}: The tool is operating system specific
+\end{itemize}
+
+\subsubsection{Results}
+After applying the inclusion and exclusion criteria, several tools were dropped. The final list consists of  The first IC resulted in Talend and Talend, StreamSets and Keboola to be dropped. While Talend has been one of the biggest names in the open-source data warehouse industry, their software is no longer open-source as of 31st of January 2024. Keboola and StreamSets were also dropped because only a part of their tool was open-source but required the non-open-source part in order to work. \\
+
+The second IC resulted in the exclusion of Hevo, as the source code for their platform was not accessible at all nor could the open-source license the software falls under be found. The third criteria was created to ensure that the software is still being kept up to date in terms of security and modern technologies. Therefore, Scriptella was excluded for example. Scriptella’s latest release was in October 2019 and no new release has been announced or planned since then. The software also uses rather outdated technology and is therefore not seen as a future proof solution. \\
+
+The exclusion criteria was included mainly for Open XDMoD, which can only run on linux based systems. This is not necessarily a bad thing, however, for the purpose of the suggested research, the choice of tools should depend on areas like use case and employee knowledge not on the operating system someone is running. \\
+
+The tools that were no longer included after applying the above criteria are marked in red in table \ref{table:tools}. A more comprehensive overview of the included tools can be found in appendix \ref{appendix:tools}. This appendix shows some basic information about each tool including if the tools uses a specific programming language or is more low/no code; the size of the GitHub contributors and number of stars the repository has; if the tool has a non-open-source paid option with more functionalities; and an optional small note for interesting capabilities, weaknesses or other note worthy findings of the tool. 
+
+\begin{table}[H]
+\centering
+    \begin{tabular}{|c|c|}
+        \hline
+        \textbf{Name of tool} & \\ \hline
+        Airbyte & {\color[HTML]{FE0000} Keboola} \\ \hline
+        Apache Airflow & Kestra \\ \hline
+        Apache Beam & Knime Analytics Platform \\ \hline
+        Apache Camel & Mage \\ \hline
+        Apache Druid & Meltano \\ \hline
+        Apache Hadoop & {\color[HTML]{FE0000} OpenXDMoD} \\ \hline
+        Apache Hive & Pentaho Community edition \\ \hline
+        Apache Hop & Perfect \\ \hline
+        Apache Kafka & PipelineWise \\ \hline
+        Apache NiFi & Python libraries\text{*} \\ \hline
+        Apache SeaTunnel & R\_etl \\ \hline
+        Apache Spark & {\color[HTML]{FE0000} Scriptella} \\ \hline
+        CloudQuery & Singer\\ \hline
+        Dagster & {\color[HTML]{FE0000} StreamSets} \\ \hline
+        DBT & {\color[HTML]{FE0000} Talend} \\ \hline
+        {\color[HTML]{FE0000} Hevo Data} & \\ \hline
+    \end{tabular}
+    \caption{The complete list of tools that were found before applying the criteria. The tools that were excluded after applying the criteria are marked in red. \\
+    \text{*}The python libraries include: Pygrametl, Petl, Bonobo, Bubble, Luigi}
+\label{table:tools}
+\end{table}
+
+\subsection{Approach \& practices}
+TODO \\
+
+\section{Approach for thesis}
 \label{approach}
-The first step is to interview the clients of Topicus .Finance who use this software and want to analyze their processes and improve their reporting. Since this product will be used daily, it is important to know what the clients of Topicus .Finance want and need. For the reporting needs it is also important to understand which stakeholders are involved as reporting to internal bookkeeping will have other requirements than the DNB or ECB. Furthermore, it is important to find the KPIs for all the relevant processes. Next to clients, the product manager will also be interviewed. Interviewing the product manager will be a great place to start gathering initial information on these clients and their processes as well as get an initial understanding of what is expected by the DNB and ECB. Interviewing the clients themselves will presumably confirm what was already found during the in-house interviews as well as expand upon that knowledge to create a clear overview of what these clients would like to see. \\
+With all this information gathered, the focus can shift to the proposed research. With the tooling and approaches a framework has to be created which can be used to determine which tools are most suitable for the situation at hand. Before this framework can begin taking shape, the gathered information needs to be structure. The different tools should be analyzed in more depth to determine their technological and business strengths such that this can be matched with the needs of a user and the approach they want to take. For this, the tools first need to be categorized and matched with different approaches that this tool would be a good fit for. For creating the framework it must also be determined how to shape the framework. For example, the framework can be a series of questions which narrow down the tools, but can also be a clear overview of the categorization from which users can see themselves which tool would fit their needs. After this is determined the actual framework can be created. \\
 
-The result of the interviews will be a list of processes with their KPIs, and a list of what needs to be reported to who. As mentioned before, Topicus .Finance has a policy where customizations are not made for specific customers, instead, their products are as general as possible such that every feature that is released can be of use to all clients and only needs to be configured for them. Therefore, the results of the interviews should consist of processes and reporting needs that are relevant to all clients. A very specific request from one client that is not relevant to others will not be taken into account. \\
+The framework should than also be tested. This will be done in the form of a case study for Topicus .Finance. The focus within Topicus .Finance lies on three main sectors, namely pension and wealth \cite{pension},  mortgages \cite{mortgages}, and lending \cite{businesslending}. Within each of these sectors, Topicus .Finance has multiple software applications for individuals or companies. In this study, one of these software applications for the lending side will be used as the basis for a case study. The application is called Fyndoo \cite{fyndoo}, and is used by almost all major banks and many smaller banks and other financial institutions that offer lending services in the Netherlands. Fyndoo is a software application that streamlines the lending application process for both the financial institution and the applicant. Within Fyndoo Topicus .Finance wants to give their clients more insight in their processes as well as help them with the reporting they need to do to "De Nederlandsche Bank" (DNB), which in turn reports to the European Central Bank (ECB). These problems can both be solved with the use of a data warehouse which means this case is very suitable as test for the framework. \\
 
-In the meantime, more information on the different approaches and tooling for creating a data warehouse needs to be found. This information will be based on the book "Data Warehouse Systems: Design and Implementation" by Alejandro Vaisman and Esteban Zimányi \cite{vaisman2014data}. This book highlights all the components and steps relevant to building a data warehouse. This book was written in 2022 therefore the information in this book will almost certainly still be relevant, however, to ensure this, corroborating literature has to be found. This step should result in an overview which can be used to decide upon the approach and tooling to be used in the last step.\\
-
-After gathering all the information on the processes involved and the reporting needs for financial institutes, and the best approach and open-source tooling for decision support data warehousing have been made, the design and implementation of the solution can start. The design and implementation of the solution will at least involve designing data storage in a stil-to-be-determined format based on the approach that is used; designing and implementing an ETL process with a still-to-be-determined tool; filling the data storage with data; and finally, creating dashboards that can be used for the decision support when improving processes as well as give insights on how the organization is doing keeping in mind the required reports needed by the DNB and ECB. Depending on the approach that is taken there might be more steps to be done during this phase. Topicus .Finance has test data available which can be used for the implementation of the solution. \\
-
-Lastly, the created solution will be evaluated with the involved clients to see if the created dashboards are useful or if they need more fine-tuning. While this step is very important, most feedback will be gathered during the design and implementation. This feedback will mostly come from the product manager and the employees of Topicus .Finance who are responsible for the product. If time allows it the feedback gathered from the clients will be incorporated in the solution.
+After the framework is applied on Topicus .Finance's situation, a data warehouse will be designed and build with the tools that were suggested by the framework. This implementation will also require insight into the client of Topicus .Finance. Therefore, interviews will be conducted with these clients to gather information on the processes these clients wish to monitor and which reporting needs they still have. From these interviews the Key Performance Indicators (KPIs) can be found which will help in the design of the data warehouse. Lastly, the implemented solution has to be evaluated. First with the clients to see if the new features of Fyndoo are helpful. Second the framework has to be evaluated with Topicus .Finance to see if the implemented solution is also a good fit for them. With both of these evaluations it should be possible to see if the framework is useful or not.
 
 \section{Planning}
-Figure \ref{gantt_chart} shows the preliminary planning for this research. The first ten weeks will be used for completing all analysis components of this research. In these ten weeks, the interviews have to be completed and analyzed and the information on best practices of data warehouse needs to be gathered. Furthermore, decisions have to be made regarding the tooling to be used for the implementation of the data warehouse. Since the interviews will be dependent on the availability of the clients of Topicus .Finance it is preferable to have other tasks planned during this period to stay on schedule. The literature study on data warehouse approaches and tooling is not dependent on other people. Therefore, this study can be conducted in parallel to the interviews. Furthermore, the different nature of each of these tasks gives a balance in the type of work that is required to complete them. This can help with motivation and focus as performing the same task for a long time can be very exhausting and can lead to a lack of focus. The next seven weeks will be used to design and implement the data warehouse. The final four weeks are used to receive feedback on the developed solution, finish writing the report, and prepare for the presentation.
+\label{planning}
+Figure \ref{gantt_chart} shows the preliminary planning for this research. The first eleven weeks will be used for completing all analysis components of this research. In these eleven weeks, the interviews for the case study will already be completed and analyzed. Since the interviews will be dependent on the availability of the clients of Topicus .Finance it is preferable to have these planned early to stay on schedule. Parallel to these interviews, the tooling and approaches must be analyzed in more depth like discusses in the approach in section \ref{approach}. Furthermore, decisions have to be made regarding the tooling to be used for the implementation of the data warehouse. Moreover, the different nature of each of these tasks gives a balance in the type of work that is required to complete them. This can help with motivation and focus as performing the same task for a long time can be very exhausting and can lead to a lack of focus. The next six weeks will be used to design and implement the data warehouse. The final four weeks are used to receive feedback on the developed solution and the framework, finish writing the report, and prepare for the presentation. These weeks also allow for a little extension if parts carry on for longer then expected.
 
 \begin{figure*}[t]
 
@@ -180,10 +237,13 @@ Figure \ref{gantt_chart} shows the preliminary planning for this research. The f
     %tasks
     \ganttbar[bar/.append style={fill=purple}]{Prepare and plan interviews}{1}{2} \\
     \ganttbar[bar/.append style={fill=violet}]{Conduct and analyse interviews}{3}{10} \\
-    \ganttbar[bar/.append style={fill=cyan}]{Literature study on approaches and tooling}{1}{8}\\
-    \ganttbar[bar/.append style={fill=yellow}]{Decide on tooling and approach}{8}{10} \\ 
-    \ganttbar[bar/.append style={fill=blue}]{Design and implement data warehouse}{11}{17}\\ 
-    \ganttbar[bar/.append style={fill=red}]{Evaluation of proposed solution}{18}{18} \\
+    \ganttbar[bar/.append style={fill=orange}]{Match tools with practice}{2}{7}\\
+    \ganttbar[bar/.append style={fill=magenta}]{Categorize tools}{2}{7}\\
+    \ganttbar[bar/.append style={fill=cyan}]{Create framework}{6}{9}\\
+    \ganttbar[bar/.append style={fill=yellow}]{Apply framework to Topicus}{10}{11} \\ 
+    \ganttbar[bar/.append style={fill=blue}]{Design and implement data warehouse}{12}{17}\\ 
+    \ganttbar[bar/.append style={fill=red}]{Evaluate solution \& framework}{18}{18} \\
+    \ganttbar[bar/.append style={fill=lime}]{Extension}{19}{20} \\
     \ganttbar[bar/.append style={fill=pink}]{Presentation}{20}{21} \\
     \ganttbar[bar/.append style={fill=teal}]{Writing}{2}{21} \\
     \ganttvrule{Green light}{17}
@@ -196,5 +256,46 @@ Figure \ref{gantt_chart} shows the preliminary planning for this research. The f
 % Entries for the entire Anthology, followed by custom entries
 \bibliography{bibliography}
 \bibliographystyle{acl_natbib}
+
+\onecolumn
+\appendix
+
+\section{Overview of tools}
+\label{appendix:tools}
+\begin{table}[H]
+\centering
+    \begin{tabular}[c]{|p{2cm}|p{4cm}|p{4cm}|p{1.5cm}|p{4cm}|}
+    \hline
+    \textbf{Name} & \textbf{UI/Code} & \textbf{Git rating/community size} & \textbf{Paid option} & \textbf{Features} \\ \hline
+    Airbyte & UI, Terraform,and API & 13.2k stars, 863 contributors & Yes & DBT for transformations \\ \hline
+    Apache Airflow & UI and Python & 33.5k stars, 2804 contributors & No &  \\ \hline
+    Apache Beam & Python, Java, GO, typescript, Scala, SQL, YAML & 7.4k stars, 1170 contributors & No & Multi-language pipelines \\ \hline
+    Apache Camel & Java & 5.2k stars, 1029 contributors & No & Integration tool with ETL \\ \hline
+    Apache Druid & Web UI with SQL queries & 13.1k stars, 591 contributors & No &  \\ \hline
+    Apache Hadoop & MapReduce & 14.2k stars, 573 contributors & No & Cluster computation \\ \hline
+    Apache Hive & CLI & 5.3k stars, 372 contributors & No &  \\ \hline
+    Apache Hop & GUI + web, CLI tools & 813 stars, 70 contributors & No & Based on Pentaho \\ \hline
+    Apache Kafka & Java and Scala & 26.9k stars, 1105 contributors & No & Real-time streaming \\ \hline
+    Apache NiFi & Web UI, & 4.2k stars, 459 contributors & No &  \\ \hline
+    Apache SeaTunnel & CLI & 7k stars, 252 contributors & No &  \\ \hline
+    Apache Spark & Python, Java, R, Scala, SQL & 37.9k stars, 2042 contributors & No & Big data analysis \\ \hline
+    CloudQuery & CLI & 5.4k stars, 142 contributors & Yes & Transformation with DBT \\ \hline
+    Dagster & Python and Web UI & 9.7k stars, 380 contributors & Only paid & Integrates with DBT and Airbyte \\ \hline
+    DBT & CLI, SQL & 8.5k stars, 290 contributors & Yes & Integrates well with other tools \\ \hline
+    Kestra & Localhost GUI with IDE & 5.4k stars, 194 contributors & Yes & Integrates with Airbyte and DBT \\ \hline
+    Knime & GUI & 144 stars, 17 contributors on GitHub & Yes & Has own community platform \\ \hline
+    Mage & GUI or own IDE, Python, R and SQL & 6.6k stars, 92 contributors & No &  \\ \hline
+    Meltano & CLI & 1.5k stars, 120 contributors & No & Transformation with DBT \\ \hline
+    Pentaho Community edition & Low-code GUI & 7.2k stars, 221 contributors & No &  \\ \hline
+    Perfect & Python + monitoring UI & 14.1k stars, 227 contributors & Yes &  \\ \hline
+    PipelineWise & CLI & 597 stars, 45 contributors & No & Requires Singer \\ \hline
+    Python libraries\text{*} & Code & NA & No & Scheduling with cron \\ \hline
+    R\_etl & R & NA & No & Dedicated R package \\ \hline
+    Singer & CLI & $\sim$1.5k stars, $\sim$30 contributors & No & PipelineWise scheduling and monitoring \\ \hline
+    \end{tabular}
+    \caption{\text{*}The python libraries include: Pygrametl, Petl, Bonobo, Bubble, Luigi}
+\end{table}
+
+If the tool uses code as their main way of building ETL pipelines, the programming language is mentioned. If the application is more low/no code, this is indicated in terms of the UI that is used. Sometimes both options are possible while other times a UI is only for monitoring the pipelines, not for building.
 
 \end{document}
